@@ -21,10 +21,10 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
 @Table(name = "tbl_product")
-@JsonIdentityInfo(
-    generator = ObjectIdGenerators.PropertyGenerator.class,
-    property = "id"
-)
+// @JsonIdentityInfo(
+//     generator = ObjectIdGenerators.PropertyGenerator.class,
+//     property = "id"
+// )
 public class Product implements Serializable {
     
 
@@ -53,7 +53,7 @@ public class Product implements Serializable {
         joinColumns = @JoinColumn(name = "product_id"),
         inverseJoinColumns = @JoinColumn(name = "suplier_id")
     )
-    // @JsonManagedReference
+    @JsonManagedReference
     private Set<Suplier> supliers;
 
     public Product() {

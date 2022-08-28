@@ -1,5 +1,6 @@
 package com.restapi.Services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,6 +19,9 @@ public class ProductService {
 
     @Autowired
     private ProductRepo productRepo;
+
+    @Autowired
+    private SuplierService suplierService;
 
     public Product save(Product product){
         return productRepo.save(product);
@@ -50,5 +54,25 @@ public class ProductService {
         }
         product.getSupliers().add(suplier);
         save(product);
+    }
+
+    public Product findByProductName(String name){
+        return productRepo.findProductByName(name);
+    }
+
+    public List<Product> findByProductNameLike(String name){
+        return productRepo.findProductByNameLike("%"+name+"%");
+    }
+
+    public List<Product> findByCategory(Long categoryId){
+        return productRepo.findProductByCategory(categoryId);
+    }
+
+    public List<Product> findBySuplier(Long suplierId){
+        Suplier suplier = suplierService.findOne(suplierId);
+        if(suplier == null){
+            return new ArrayList<Product>();
+        }
+        return productRepo.findProductBySuplier(suplier);
     }
 }

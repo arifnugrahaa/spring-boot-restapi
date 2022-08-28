@@ -1,5 +1,7 @@
 package com.restapi.Controller;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.restapi.Dto.ResponseData;
+import com.restapi.Dto.SearchData;
 import com.restapi.Model.Entities.Product;
 import com.restapi.Model.Entities.Suplier;
 import com.restapi.Services.ProductService;
@@ -83,5 +86,25 @@ public class ProductController {
     @PostMapping("/{id}")
     public void addSuplier(@RequestBody Suplier suplier, @PathVariable("id") Long productId){
         productService.addSuplier(suplier, productId);
+    }
+
+    @PostMapping("/search/name")
+    public Product getProductByName(@RequestBody SearchData searchData){
+        return productService.findByProductName(searchData.getSearchKey());
+    }
+
+    @PostMapping("/search/namelike")
+    public List<Product> getProductByNameLike(@RequestBody SearchData searchData){
+        return productService.findByProductNameLike(searchData.getSearchKey());
+    }
+
+    @GetMapping("/search/category/{categoryId}")
+    public List<Product> getProductByCategory(@PathVariable("categoryId") Long categoryId){
+        return productService.findByCategory(categoryId);
+    }
+
+    @GetMapping("/search/suplier/{suplierId}")
+    public List<Product> getProductBySuplier(@PathVariable("suplierId") Long suplierId){
+        return productService.findBySuplier(suplierId);
     }
 }
