@@ -1,5 +1,6 @@
 package com.restapi.Services;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
@@ -35,5 +36,21 @@ public class SuplierService {
 
     public void removeOne(Long id){
         suplierRepo.deleteById(id);
+    }
+
+    public Suplier findByEmail(String email){
+        return suplierRepo.findByEmail(email);
+    }
+
+    public List<Suplier> findByName(String name){
+        return suplierRepo.findByNameContainsOrderByIdDesc(name);
+    }
+
+    public List<Suplier> findByNameStartWith(String prefix){
+        return suplierRepo.findByNameStartingWith(prefix);
+    }
+
+    public List<Suplier> findByNameOrEmail(String name, String email){
+        return suplierRepo.findByNameContainsOrEmailContains(name, email);
     }
 }

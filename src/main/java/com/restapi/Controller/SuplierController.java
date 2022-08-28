@@ -1,5 +1,7 @@
 package com.restapi.Controller;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.modelmapper.ModelMapper;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.restapi.Dto.ResponseData;
+import com.restapi.Dto.SearchData;
 import com.restapi.Dto.SuplierData;
 import com.restapi.Model.Entities.Suplier;
 import com.restapi.Services.SuplierService;
@@ -97,5 +100,25 @@ public class SuplierController {
         responseData.setStatus(true);
         responseData.setPayload(suplierService.save(suplier));
         return ResponseEntity.ok(responseData);
+    }
+
+    @PostMapping("/search/byemail")
+    public Suplier findByEmail(@RequestBody SearchData searchData){
+        return suplierService.findByEmail(searchData.getSearchKey());
+    }
+
+    @PostMapping("/search/byname")
+    public List<Suplier> findByName(@RequestBody SearchData searchData){
+        return suplierService.findByName(searchData.getSearchKey());
+    }
+
+    @PostMapping("/search/namestartwith")
+    public List<Suplier> findByNameStartWith(@RequestBody SearchData searchData){
+        return suplierService.findByNameStartWith(searchData.getSearchKey());
+    }
+
+    @PostMapping("/search/nameoremail")
+    public List<Suplier> findByNameOrEmail(@RequestBody SearchData searchData){
+        return suplierService.findByNameOrEmail(searchData.getSearchKey(), searchData.getOtherSearchKey());
     }
 }
